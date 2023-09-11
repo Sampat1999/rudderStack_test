@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { rudderIntialize, rudderanalytics } from "./rudder";
 
 function App() {
+  const eventEnum = {
+    "Order-Clicked": "Order-Clicked",
+    "Order-Placed": "Order-Placed",
+  };
+  const handleTrack = () => {
+    const trackEvent = rudderanalytics.track(
+      eventEnum["Order-Clicked"],
+      {
+        evertData: {
+          itemId: 12,
+          itemName: "Pizza",
+        },
+        eventType: eventEnum["Order-Clicked"],
+        userDetails: {},
+        // timeStamp: Date.now()
+      },
+      () => {
+        console.log("track call");
+      }
+    );
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <button onClick={rudderIntialize}>Intialize</button>
+      <button onClick={handleTrack}>Track</button>
     </div>
   );
 }
